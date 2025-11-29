@@ -1,0 +1,18 @@
+services:
+  app:
+    image: transcriber
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - movies:/mnt/Movies
+
+volumes:
+  movies:
+    driver: local
+    driver_opts:
+      type: "nfs"
+      o: "addr=192.168.178.28,rw"
+      device: ":/mnt/user/Movies"
