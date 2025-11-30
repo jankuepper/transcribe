@@ -5,8 +5,8 @@ import OpenAI from 'openai'
 const openai = new OpenAI({apiKey: process.env.API_KEY})
 
 export async function processFile(path){
-    /*command('cp', [path, '.'])
-    command(`mv *.m2ts temp.m2ts`,[], {shell:true}) */
+    command('cp', [path, '.'])
+    command(`mv *.m2ts temp.m2ts`, [], { shell: true })
     command('ffmpeg', ['-i', path, 'temp.mp4'])
     command('ffmpeg', ['-i', 'temp.mp4', 'temp.mp3'])
     command('rm', ['temp.m2ts'])
