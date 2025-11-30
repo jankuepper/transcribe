@@ -3,7 +3,6 @@ services:
     image: transcriber
     container_name: transcriber
     group_add:
-      - 993
       - video
     build:
       context: .
