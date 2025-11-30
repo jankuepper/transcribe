@@ -38,7 +38,7 @@ export async function processFile(path, show){
         model: 'gpt-5',
         input: [
             {role:'system', content: `You are given the transcription of an episode from ${show}. Return the episodes name and number in the season and the number of the season.`},
-            {role: 'user', content: createReadStream('temp.txt')}
+            {role: 'user', content: readFileSync('temp.txt', 'utf-8')}
         ],
         text: {
             format: zodTextFormat(EpisodeInfo, 'episode')
