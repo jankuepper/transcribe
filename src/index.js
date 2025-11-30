@@ -16,7 +16,6 @@ app.get('/', async (req, res) => {
         if(stats.size < MAX_SIZE) return;
         await processFile(`/mnt/Movies/backup/${req.query.path}/${file}`, req.query.show)
     })
-    res.send('done')
 })
 
 app.listen(3000, () => {})

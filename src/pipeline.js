@@ -13,11 +13,16 @@ const EpisodeInfo = z.object({
 })
 
 export async function processFile(path, show){
+    command('rm', ['temp.mp3'])
+    command('rm', ['temp.mp4'])
+    command('rm', ['temp.txt'])
+    command('rm', ['temp.m2ts'])
+
+
     command('cp', [path, '.'])
     command(`mv *.m2ts temp.m2ts`, [], { shell: true })
     command('ffmpeg', ['-i', 'temp.m2ts', '-c:v', 'copy', '-c:a', 'libmp3lame', '-b:a', '192k', 'temp.mp4'])
     command('ffmpeg', ['-i', 'temp.mp4', 'temp.mp3'])
-    command('rm', ['temp.m2ts'])
     
     if(!process.env.OPENAI_WHISPER){
         command('whisper', ['temp.mp3', '--model', 'turbo', '--language', 'en', '--task', 'transcribe', '--output_format', 'txt', '--device', 'cpu'])
@@ -52,9 +57,5 @@ export async function processFile(path, show){
 
     command(`mv temp.mp4 ${show}_S${info.season}E${info.episodenumber}.mp4`, [], { shell: true })
     command('cp', [`${show}_S${info.season}E${info.episodenumber}.mp4`, `/mnt/media/shows/${show}/season_${info.season}/`])
-
-    command('rm', ['temp.mp3'])
-    command('rm', ['temp.mp4'])
-    command('rm', ['temp.txt'])
     console.log('done')
 }
