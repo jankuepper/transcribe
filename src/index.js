@@ -11,11 +11,12 @@ const MAX_SIZE = 2 * GIBIBYTE;
 app.get('/', async (req, res) => {
     const dir = readdirSync('/mnt/Movies/backup/'+req.query.path)
     console.log(dir)
-    dir.forEach(async file => {
+    await processFile(`/mnt/Movies/backup/${req.query.path}/00000.m2ts`, req.query.show)
+    /*dir.forEach(async file => {
         const stats = statSync(`/mnt/Movies/backup/${req.query.path}/${file}`)
         if(stats.size < MAX_SIZE) return;
         await processFile(`/mnt/Movies/backup/${req.query.path}/${file}`, req.query.show)
-    })
+    })*/
     res.send('done')
 })
 
