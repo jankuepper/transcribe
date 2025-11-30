@@ -6,11 +6,12 @@ import { processFile } from './pipeline.js'
 const app = express()
 
 app.get('/', async (req, res) => {
-    const dir = readdirSync('/mnt/Movies/backup/brseason2/THAT70SSHOW_S2D1/BDMV/STREAM/')
+    const dir = readdirSync('/mnt/Movies/backup/'+req.query.path)
     console.log(dir)
-    // await processFile('/mnt/Movies/backup/brseason2/THAT70SSHOW_S2D1/BDMV/STREAM/00000.m2ts', 'that70sshow')
-    
-    res.send(req.query)
+    dir.forEach(async file => {
+        await processFile(`/mnt/Movies/backup/${req.query.path}/${file}`, req.query.show)
+    })
+    res.send('done')
 })
 
 app.listen(3000, () => {})
