@@ -10,7 +10,7 @@ app.get('/', async (req, res) => {
     readdirSync('/mnt/Movies/backup/brseason2/THAT70SSHOW_S2D1/BDMV/STREAM/')
     // await processFile('/mnt/Movies/backup/brseason2/THAT70SSHOW_S2D1/BDMV/STREAM/00000.m2ts', 'that70sshow')
     
-    res.send('done')
+    res.send(req.params)
 })
 
 app.listen(3000, () => {})
