@@ -50,5 +50,7 @@ export async function processFile(path, show){
     const info = res.output_parsed
     console.log(info)
 
+    command(`mv temp.mp4 ${show}_S${info.season}E${info.episodenumber}.mp4`, [], { shell: true })
+    command('cp', [`${show}_S${info.season}E${info.episodenumber}.mp4`, `/mnt/media/${show}/season_${info.season}/`])
     console.log('done')
 }

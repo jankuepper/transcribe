@@ -16,6 +16,7 @@ services:
       - seccomp=unconfined
     volumes:
       - movies:/mnt/Movies
+      - media:/mnt/media
 
 volumes:
   movies:
@@ -24,3 +25,9 @@ volumes:
       type: "nfs"
       o: "addr=192.168.178.28,rw"
       device: ":/mnt/user/Movies"
+  media:
+    driver: local
+    driver_opts:
+      type: "nfs"
+      o: "addr=192.168.178.28,rw"
+      device: ":/mnt/user/media"
