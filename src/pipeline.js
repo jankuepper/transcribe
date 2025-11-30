@@ -7,8 +7,8 @@ const openai = new OpenAI({apiKey: process.env.API_KEY})
 export async function processFile(path){
     command('cp', [path, '.'])
     command(`mv *.m2ts temp.m2ts`, [], { shell: true })
-    command('ffmpeg', ['-hwaccel vaapi', '-vaapi_device /dev/dri/renderD128', '-i', 'temp.m2ts', 'temp.mp4'])
-    command('ffmpeg', ['-hwaccel vaapi', '-vaapi_device /dev/dri/renderD128', '-i', 'temp.mp4', 'temp.mp3'])
+    command('ffmpeg', ['-hwaccel auto', '-device /dev/dri/renderD128', '-i', 'temp.m2ts', 'temp.mp4'])
+    command('ffmpeg', ['-hwaccel auto', '-device /dev/dri/renderD128', '-i', 'temp.mp4', 'temp.mp3'])
     command('rm', ['temp.m2ts'])
     command('touch', ['text.txt'])
     
