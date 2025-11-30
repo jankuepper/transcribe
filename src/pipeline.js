@@ -18,14 +18,9 @@ export async function processFile(path, show){
     command('ffmpeg', ['-i', 'temp.m2ts', 'temp.mp4'])
     command('ffmpeg', ['-i', 'temp.mp4', 'temp.mp3'])
     command('rm', ['temp.m2ts'])
-    command('touch', ['text.txt'])
     
     if(!process.env.OPENAI_WHISPER){
-        const result = command('whisper', ['temp.mp3', '--model', 'turbo', '--language', 'en', '--task', 'transcribe', '--output_format', 'txt', '--device', 'cpu'])
-        console.log(result)
-        if(result){
-            writeFileSync('text.txt', result?.text)
-        }
+        command('whisper', ['temp.mp3', '--model', 'turbo', '--language', 'en', '--task', 'transcribe', '--output_format', 'txt', '--device', 'cpu'])
     } else {
         const result = await openai.audio.transcriptions.create({
             file: createReadStream('../temp.mp3'),
@@ -34,7 +29,8 @@ export async function processFile(path, show){
         console.log(result) 
 
         if(result){
-            writeFileSync('text.txt', result?.text)
+            command('touch', ['temp.txt'])
+            writeFileSync('temp.txt', result?.text)
         }
     }
 
@@ -42,7 +38,7 @@ export async function processFile(path, show){
         model: 'gpt-5',
         input: [
             {role:'system', content: `You are given the transcription of an episode from ${show}. Return the episodes name and number in the season and the number of the season.`},
-            {role: 'user', content: createReadStream('text.txt')}
+            {role: 'user', content: createReadStream('temp.txt')}
         ],
         text: {
             format: zodTextFormat(EpisodeInfo, 'episode')
