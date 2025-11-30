@@ -1,11 +1,17 @@
 services:
   app:
     image: transcriber
+    container_name: transcriber
     build:
       context: .
       dockerfile: ./docker/Dockerfile
     ports:
       - 3000:3000
+    devices:
+      - /dev/kfd
+      - /dev/dri
+    security_opt:
+      - seccomp=unconfined
     volumes:
       - movies:/mnt/Movies
 
