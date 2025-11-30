@@ -4,6 +4,7 @@ services:
     container_name: transcriber
     group_add:
       - 993
+      - video
     build:
       context: .
       dockerfile: ./docker/Dockerfile
