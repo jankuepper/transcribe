@@ -15,7 +15,7 @@ const EpisodeInfo = z.object({
 export async function processFile(path, show){
     command('cp', [path, '.'])
     command(`mv *.m2ts temp.m2ts`, [], { shell: true })
-    command('ffmpeg', ['-i', 'temp.m2ts', '-c', 'copy', 'temp.mp4'])
+    command('ffmpeg', ['-i', 'temp.m2ts', '-c:v', 'copy', '-c:a', 'libmp3lame', '-b:a', '192k', 'temp.mp4'])
     command('ffmpeg', ['-i', 'temp.mp4', 'temp.mp3'])
     command('rm', ['temp.m2ts'])
     
