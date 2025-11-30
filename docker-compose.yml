@@ -1,5 +1,5 @@
 services:
-  app:
+  transcriber:
     image: transcriber
     container_name: transcriber
     group_add:

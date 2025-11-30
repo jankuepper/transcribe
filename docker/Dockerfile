@@ -19,9 +19,6 @@ COPY docker/requirements.txt .
 RUN pip install --upgrade pip setuptools wheel
 RUN pip install -r requirements.txt
 
-RUN groupadd -g 993 hostgroup
-RUN mkdir -p /tmp/runtime-root && chmod 700 /tmp/runtime-root
-
 
 COPY . .
 RUN npm install
