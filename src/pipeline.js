@@ -15,8 +15,8 @@ const EpisodeInfo = z.object({
 export async function processFile(path, show){
     command('cp', [path, '.'])
     command(`mv *.m2ts temp.m2ts`, [], { shell: true })
-    command('ffmpeg', ['-i', 'temp.m2ts', 'temp.mp4'])
-    command('ffmpeg', ['-i', 'temp.mp4', 'temp.mp3'])
+    command('ffmpeg', ['-i', 'temp.m2ts', '-c', 'copy', 'temp.mp4'])
+    command('ffmpeg', ['-i', 'temp.mp4', '-c', 'copy', 'temp.mp3'])
     command('rm', ['temp.m2ts'])
     
     if(!process.env.OPENAI_WHISPER){
@@ -51,6 +51,6 @@ export async function processFile(path, show){
     console.log(info)
 
     command(`mv temp.mp4 ${show}_S${info.season}E${info.episodenumber}.mp4`, [], { shell: true })
-    command('cp', [`${show}_S${info.season}E${info.episodenumber}.mp4`, `/mnt/media/${show}/season_${info.season}/`])
+    command('cp', [`${show}_S${info.season}E${info.episodenumber}.mp4`, `/mnt/media/shows/${show}/season_${info.season}/`])
     console.log('done')
 }

@@ -17,7 +17,6 @@ services:
     volumes:
       - movies:/mnt/Movies
       - media:/mnt/media
-
 volumes:
   movies:
     driver: local
