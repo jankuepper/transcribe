@@ -16,7 +16,7 @@ export async function processFile(path, show){
     command('cp', [path, '.'])
     command(`mv *.m2ts temp.m2ts`, [], { shell: true })
     command('ffmpeg', ['-i', 'temp.m2ts', '-c', 'copy', 'temp.mp4'])
-    command('ffmpeg', ['-i', 'temp.mp4', '-c', 'copy', 'temp.mp3'])
+    command('ffmpeg', ['-i', 'temp.mp4', '-vn', '-c:a', 'copy', 'temp.mp3'])
     command('rm', ['temp.m2ts'])
     
     if(!process.env.OPENAI_WHISPER){
