@@ -23,4 +23,6 @@ RUN pip install -r requirements.txt
 COPY . .
 RUN npm install
 
+COPY whisper/ /root/.cache/whisper
+
 ENTRYPOINT [ "npm", "run", "start" ]
