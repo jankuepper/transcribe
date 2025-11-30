@@ -21,7 +21,7 @@ export async function processFile(path, show){
     command('touch', ['text.txt'])
     
     if(!process.env.OPENAI_WHISPER){
-        const result = command('whisper', ['temp.mp3', '--model turbo', '--language en', '--task transcribe', '--output_format txt', '--device cpu'])
+        const result = command('whisper', ['temp.mp3', '--model', 'turbo', '--language', 'en', '--task', 'transcribe', '--output_format', 'txt', '--device', 'cpu'])
         console.log(result)
         if(result){
             writeFileSync('text.txt', result?.text)
