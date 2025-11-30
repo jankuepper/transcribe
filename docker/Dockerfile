@@ -3,7 +3,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt update -y && apt upgrade -y
 
-RUN apt-get install -y curl xz-utils libatomic1 ffmpeg python3 python3-venv python3-pip git curl build-essential i965-va-driver libva-dev vainfo && \
+RUN apt-get install -y curl xz-utils libatomic1 ffmpeg python3 python3-venv python3-pip git mesa-va-drivers curl build-essential i965-va-driver libva-dev vainfo && \
     rm -rf /var/lib/apt/lists/* && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN curl -fsSL https://nodejs.org/dist/v25.2.1/node-v25.2.1-linux-x64.tar.xz \
