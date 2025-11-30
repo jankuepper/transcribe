@@ -7,8 +7,8 @@ import { zodTextFormat } from 'openai/helpers/zod.mjs'
 const openai = new OpenAI({apiKey: process.env.API_KEY})
 
 const EpisodeInfo = z.object({
-    name: z.string(),
-    number: z.number(),
+    episodename: z.string(),
+    episodenumber: z.number(),
     season: z.number()
 })
 
@@ -37,7 +37,7 @@ export async function processFile(path, show){
     const res = await openai.responses.parse({
         model: 'gpt-5',
         input: [
-            {role:'system', content: `You are given the transcription of an episode from ${show}. Return the episodes name and number in the season and the number of the season.`},
+            {role:'system', content: `You are given the transcript of an episode from ${show}. Return the episodename and number in the season and the number of the season.`},
             {role: 'user', content: readFileSync('temp.txt', 'utf-8')}
         ],
         text: {
