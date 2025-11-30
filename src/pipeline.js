@@ -12,7 +12,7 @@ export async function processFile(path){
     command('rm', ['temp.m2ts'])
     command('touch', ['text.txt'])
     
-    command('whisper temp.mp3', ['--model turbo', '--language en', '--task transcribe', '--output_format txt', '--device cpu'])
+    command('whisper', ['temp.mp3', '--model turbo', '--language en', '--task transcribe', '--output_format txt', '--device cpu'])
 /*
     try{
         const result = await openai.audio.transcriptions.create({
