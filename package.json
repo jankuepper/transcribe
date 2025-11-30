@@ -7,9 +7,10 @@
   "type": "module",
   "main": "src/index.js",
   "scripts": {
-    "start":"node --env-file=.env src/index.js"
+    "start": "node --env-file=.env src/index.js"
   },
   "dependencies": {
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "openai": "^6.9.1"
   }
 }

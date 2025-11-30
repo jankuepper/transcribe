@@ -1,5 +1,8 @@
 import {command} from './cli.js'
-import { createReadStream, writeFileSync } from 'node:fs'
+import { createReadStream, readFileSync, writeFileSync } from 'node:fs'
+import OpenAI from 'openai'
+
+const openai = new OpenAI({apiKey: process.env.API_KEY})
 
 export async function processFile(path){
     command('cp', [path, '.'])
@@ -9,21 +12,20 @@ export async function processFile(path){
     command('rm', ['temp.m2ts'])
     command('touch', ['text.txt'])
     
-    const audio = createReadStream('temp.mp3')
-    const data = new FormData()
-    data.append('file', audio)
-    data.append('model', 'whisper-1')
+    command('whisper', ['--help'])
+/*
+    try{
+        const result = await openai.audio.transcriptions.create({
+            file: createReadStream('../temp.mp3'),
+            model: 'whisper-1'
+        })
+        console.log(result) 
 
-    const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {
-        method: 'POST',
-        headers:{
-            'Authorization': `Bearer ${process.env.API_KEY}`,
-            'Content-Type':'multipart/form-data'
-        },
-        body: data
-    })
-    const responseJson = await response.json()
-    const transcription = responseJson?.text
-    writeFileSync('text.txt', transcription)
+        if(result){
+            writeFileSync('text.txt', result?.text)
+        }
+    }catch(e){
+        console.log('Error: ', e)
+    } */
     console.log('done')
 }
