@@ -33,7 +33,7 @@ export async function processFile(path, show){
             writeFileSync('temp.txt', result?.text)
         }
     }
-
+    
     const res = await openai.responses.parse({
         model: 'gpt-5',
         input: [
