@@ -40,6 +40,9 @@ export async function processFile(path, show){
             {role:'system', content: `You are given the transcript of an episode from ${show}. Return the episodename and number in the season and the number of the season.`},
             {role: 'user', content: readFileSync('temp.txt', 'utf-8')}
         ],
+        tools: [
+            { type: "web_search" },
+        ],
         text: {
             format: zodTextFormat(EpisodeInfo, 'episode')
         }
