@@ -1,6 +1,6 @@
-import express from 'express'
-import { readdirSync, statSync } from 'node:fs'
-import { processFile } from './pipeline.js'
+import express from 'express';
+import { readdirSync, statSync } from 'node:fs';
+import { command } from './cli.js'
 
 
 const app = express()
