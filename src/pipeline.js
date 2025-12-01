@@ -18,7 +18,6 @@ export async function processFile(path, show){
     command('rm', ['temp.txt'])
     command('rm', ['temp.m2ts'])
 
-
     command('cp', [path, '.'])
     command(`mv *.m2ts temp.m2ts`, [], { shell: true })
     command('ffmpeg', ['-i', 'temp.m2ts', '-c:v', 'copy', '-c:a', 'libmp3lame', '-b:a', '192k', 'temp.mp4'])
@@ -38,7 +37,6 @@ export async function processFile(path, show){
             writeFileSync('temp.txt', result?.text)
         }
     }
-    try{
         const res = await openai.responses.parse({
             model: 'gpt-5',
             input: [
@@ -57,8 +55,6 @@ export async function processFile(path, show){
 
         command(`mv temp.mp4 ${show}_S${info.season}E${info.episodenumber}.mp4`, [], { shell: true })
         command('cp', [`${show}_S${info.season}E${info.episodenumber}.mp4`, `/mnt/media/shows/${show}/season_${info.season}/`])
-    }catch(e) {
-        console.log({error: e})
-    }
+  
     console.log('done')
 }
