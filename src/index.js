@@ -35,7 +35,7 @@ app.get('/', async (req, res) => {
 
     dir.forEach(file => cleanUp(file))
 
-    dir.forEach(file => prep('/mnt/Movies/backup/' + req.query.path + file))
+    dir.forEach(file => prep(file, '/mnt/Movies/backup/' + req.query.path + file))
 
     dir.forEach(file => {
         const name = file.split('.')[0]
