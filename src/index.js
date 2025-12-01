@@ -63,6 +63,8 @@ app.get('/', async (req, res) => {
         command(`mv ${name}.mp4 ${show}_S${info.season}E${info.episodenumber}.mp4`, [], { shell: true })
         command('cp', [`${show}_S${info.season}E${info.episodenumber}.mp4`, `/mnt/media/shows/${show}/season_${info.season}/`])
     })
+
+    dir.forEach(file => cleanUp(file))
 })
 
 app.listen(3000, () => { })
