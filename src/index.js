@@ -28,6 +28,7 @@ function prep(file, path) {
 
 
 app.get('/', async (req, res) => {
+    console.log('Starting')
     const unfiltereddir = readdirSync('/mnt/Movies/backup/' + req.query.path)
     const dir = unfiltereddir.filter(file => statSync('/mnt/Movies/backup/' + req.query.path + file).size > MAX_SIZE)
     console.log(dir)
