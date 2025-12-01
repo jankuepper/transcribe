@@ -8,6 +8,8 @@ const app = express()
 const GIBIBYTE = 1024 ** 3;
 const MAX_SIZE = 2 * GIBIBYTE;
 
+// http://192.168.178.44:3000/?show=that70sshow&path=brseason2/THAT70SSHOW_S2D1/BDMV/STREAM/
+
 app.get('/', async (req, res) => {
     const dir = readdirSync('/mnt/Movies/backup/'+req.query.path)
     console.log(dir)

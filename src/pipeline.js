@@ -38,24 +38,27 @@ export async function processFile(path, show){
             writeFileSync('temp.txt', result?.text)
         }
     }
-    
-    const res = await openai.responses.parse({
-        model: 'gpt-5',
-        input: [
-            {role:'system', content: `You are given the transcript of an episode from ${show}. Return the episodename and number in the season and the number of the season.`},
-            {role: 'user', content: readFileSync('temp.txt', 'utf-8')}
-        ],
-        tools: [
-            { type: "web_search" },
-        ],
-        text: {
-            format: zodTextFormat(EpisodeInfo, 'episode')
-        }
-    })
-    const info = res.output_parsed
-    console.log(info)
+    try{
+        const res = await openai.responses.parse({
+            model: 'gpt-5',
+            input: [
+                {role:'system', content: `You are given the transcript of an episode from ${show}. Return the episodename and number in the season and the number of the season.`},
+                {role: 'user', content: readFileSync('temp.txt', 'utf-8')}
+            ],
+            tools: [
+                { type: "web_search" },
+            ],
+            text: {
+                format: zodTextFormat(EpisodeInfo, 'episode')
+            }
+        })
+        const info = res.output_parsed
+        console.log(info)
 
-    command(`mv temp.mp4 ${show}_S${info.season}E${info.episodenumber}.mp4`, [], { shell: true })
-    command('cp', [`${show}_S${info.season}E${info.episodenumber}.mp4`, `/mnt/media/shows/${show}/season_${info.season}/`])
+        command(`mv temp.mp4 ${show}_S${info.season}E${info.episodenumber}.mp4`, [], { shell: true })
+        command('cp', [`${show}_S${info.season}E${info.episodenumber}.mp4`, `/mnt/media/shows/${show}/season_${info.season}/`])
+    }catch(e) {
+        console.log({error: e})
+    }
     console.log('done')
 }
