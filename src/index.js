@@ -14,12 +14,10 @@ app.get('/test', (req, res) => {
   const sourcepath = '/mnt/Movies/backup/brseason3/THAT70SSHOW_S3D1/BDMV/STREAM/'
   const destpath = '/mnt/media/shows/that70sshow/season_3/'
 
-  const offset = readdirSync(destpath).length
-
   if (!existsSync(destpath)) {
     mkdirSync(destpath)
-    console.log('test')
   }
+  const offset = readdirSync(destpath).length
   const dir = readdirSync(sourcepath)
 
   dir = dir.filter(file => {
