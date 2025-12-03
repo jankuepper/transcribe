@@ -8,11 +8,11 @@ const app = express()
 const GIBIBYTE = 1024 ** 3;
 const MAX_SIZE = 2 * GIBIBYTE;
 
-// http://192.168.178.44:3000/?show=that70sshow&path=brseason2/THAT70SSHOW_S2D1/BDMV/STREAM/
-
+// http://192.168.178.44:3000/?src=brseason3/THAT%2070S%20SHOW%20S3D1&dest=that70sshow/season_3/
+//
 app.get('/test', (req, res) => {
-  const sourcepath = '/mnt/Movies/backup/brseason3/THAT70SSHOW_S3D1/BDMV/STREAM/'
-  const destpath = '/mnt/media/shows/that70sshow/season_3/'
+  const sourcepath = '/mnt/Movies/backup/' + decodeURI(req.query.src) + '/BDMV/STREAM/'  // '/mnt/Movies/backup/brseason3/THAT\ 70S\ SHOW\ S3D1/BDMV/STREAM/'
+  const destpath = '/mnt/media/shows/' + decodeURI(req.query.dest)  // '/mnt/media/shows/that70sshow/season_3/'
 
   if (!existsSync(destpath)) {
     mkdirSync(destpath)
