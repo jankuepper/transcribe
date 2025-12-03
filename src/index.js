@@ -28,7 +28,8 @@ app.get('/test', (req, res) => {
 
   dir.forEach((file, index) => {
     const name = file.split('.')[0]
-    command('ffmpeg', ['-i', sourcepath + name + '.m2ts', '-c:v', 'copy', '-c:a', 'libmp3lame', '-b:a', '192k', destpath + index + offset + '_raw.mp4'])
+    const num = index + offset
+    command('ffmpeg', ['-i', sourcepath + name + '.m2ts', '-c:v', 'copy', '-c:a', 'libmp3lame', '-b:a', '192k', destpath + num + '_raw.mp4'])
   })
   res.send('done')
 })
