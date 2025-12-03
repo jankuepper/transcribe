@@ -30,7 +30,7 @@ app.get('/test', (req, res) => {
   const path = '/mnt/Movies/backup/brseason2/THAT70SSHOW_S2D1/BDMV/STREAM/'
   const dir = readdirSync(path)
   dir.forEach(file => {
-    if (statSync(path + file).size < MAX_SIZE) return;
+    if (file.split('.')[1] !== 'm2ts' || statSync(path + file).size < MAX_SIZE) return;
     const name = file.split('.')[0]
     command('ffmpeg', ['-i', path + name + '.m2ts', '-c:v', 'copy', '-c:a', 'libmp3lame', '-b:a', '192k', './' + name + '.mp4'])
     command('cp', [name + '.mp4', '/mnt/media/shows/that70sshow/season_2/'])
