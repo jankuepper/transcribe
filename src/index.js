@@ -18,6 +18,7 @@ app.get('/test', (req, res) => {
 
   if (!existsSync(destpath)) {
     mkdirSync(destpath)
+    console.log('test')
   }
   const dir = readdirSync(sourcepath)
 
