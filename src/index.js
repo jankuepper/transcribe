@@ -29,7 +29,7 @@ function prep(file, path) {
 app.get('/test', (req, res) => {
   const path = '/mnt/Movies/backup/brseason2/THAT70SSHOW_S2D1/BDMV/STREAM/'
   command('rm', ['*.m2ts'])
-  command('cp', [path, '.'])
+  command('cp', ['-r', path, '.'])
   const localDir = readdirSync('.')
   localDir.forEach(file => {
     if (statSync(file).size < MAX_SIZE) return;
