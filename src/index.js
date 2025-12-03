@@ -18,7 +18,7 @@ app.get('/test', (req, res) => {
     mkdirSync(destpath)
   }
   const offset = readdirSync(destpath).length
-  const dir = readdirSync(sourcepath)
+  let dir = readdirSync(sourcepath)
 
   dir = dir.filter(file => {
     const type = file.split('.')[1]
