@@ -9,20 +9,27 @@ const GIBIBYTE = 1024 ** 3;
 const MAX_SIZE = 2 * GIBIBYTE;
 
 // :3000/?src=brseason3/THAT%2070S%20SHOW%20S3D1&dest=that70sshow/season_3/
+// ?src=that70sshow/season_3/
 
-app.get('/sort', (req, res) => {
+app.get('/transcribe', (req, res) => {
   const sourcepath = '/mnt/media/shows/' + decodeURI(req.query.src)
 
   const dir = readdirSync(sourcepath)
-  dir.forEach(async (file) => {
+  dir.forEach((file) => {
     const name = file.split('.')[0]
+    if (!name.includes('_raw')) return
     command('ffmpeg', ['-i', sourcepath + file, '-vn', '-acodec', 'copy', name + '.mp3'])
     command('whisper', [name + '.mp3', '--model', 'turbo', '--language', 'en', '--task', 'transcribe', '--output_format', 'txt', '--device', 'cpu'])
+  })
 
+  const localDir = readdirSync('.')
+  localDir.forEach(async (file) => {
+    const [name, type] = file.split('.')
+    if (!name.includes('_raw') || type !== 'txt') return
     const res = await openai.responses.parse({
       model: 'gpt-5',
       input: [
-        { role: 'system', content: `You are given the transcript of an episode from ${show}. Return the episodename and number in the season and the number of the season.` },
+        { role: 'system', content: `You are given the transcript of an episode from that 70s show. Return the episodename and number in the season and the number of the season.` },
         { role: 'user', content: readFileSync(name + '.txt', 'utf-8') }
       ],
       tools: [
@@ -32,9 +39,8 @@ app.get('/sort', (req, res) => {
         format: zodTextFormat(EpisodeInfo, 'episode')
       }
     })
-    const info = res.output_parsed
+    const info = await res.output_parsed
     console.log({ info })
-
     renameSync(sourcepath + name, sourcepath + info.episodenumber)
   })
 
