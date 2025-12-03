@@ -32,7 +32,7 @@ app.get('/test', (req, res) => {
   dir.forEach(file => {
     if (file.split('.')[1] !== 'm2ts' || statSync(path + file).size < MAX_SIZE) return;
     const name = file.split('.')[0]
-    command('ffmpeg', ['-i', path + name + '.m2ts', '-c:v', 'copy', '-c:a', 'libmp3lame', '-b:a', '192k', '/mnt/media/shows/that70sshow/season_2/' + Number(name) + '.mp4'])
+    command('ffmpeg', ['-i', path + name + '.m2ts', '-c:v', 'copy', '-c:a', 'libmp3lame', '-b:a', '192k', '/mnt/media/shows/that70sshow/season_2/' + Number(name) + '_raw' + '.mp4'])
     //    command('cp', [name + '.mp4', '/mnt/media/shows/that70sshow/season_2/'])
   })
   res.send('done')
