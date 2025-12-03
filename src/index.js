@@ -1,5 +1,5 @@
 import express from 'express';
-import { existsSync, mkdirSync, readdirSync, statSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, renameSync, statSync } from 'node:fs';
 import { command } from './cli.js'
 
 
@@ -8,9 +8,40 @@ const app = express()
 const GIBIBYTE = 1024 ** 3;
 const MAX_SIZE = 2 * GIBIBYTE;
 
-// http://192.168.178.44:3000/?src=brseason3/THAT%2070S%20SHOW%20S3D1&dest=that70sshow/season_3/
-//
-app.get('/test', (req, res) => {
+// :3000/?src=brseason3/THAT%2070S%20SHOW%20S3D1&dest=that70sshow/season_3/
+
+app.get('/sort', (req, res) => {
+  const sourcepath = '/mnt/media/shows/' + decodeURI(req.query.src)
+
+  const dir = readdirSync(sourcepath)
+  dir.forEach(async (file) => {
+    const name = file.split('.')[0]
+    command('ffmpeg', ['-i', sourcepath + file, '-vn', '-acodec', 'copy', name + '.mp3'])
+    command('whisper', [name + '.mp3', '--model', 'turbo', '--language', 'en', '--task', 'transcribe', '--output_format', 'txt', '--device', 'cpu'])
+
+    const res = await openai.responses.parse({
+      model: 'gpt-5',
+      input: [
+        { role: 'system', content: `You are given the transcript of an episode from ${show}. Return the episodename and number in the season and the number of the season.` },
+        { role: 'user', content: readFileSync(name + '.txt', 'utf-8') }
+      ],
+      tools: [
+        { type: "web_search" },
+      ],
+      text: {
+        format: zodTextFormat(EpisodeInfo, 'episode')
+      }
+    })
+    const info = res.output_parsed
+    console.log({ info })
+
+    renameSync(sourcepath + name, sourcepath + info.episodenumber)
+  })
+
+  res.send('done')
+})
+
+app.get('/copy', (req, res) => {
   const sourcepath = '/mnt/Movies/backup/' + decodeURI(req.query.src) + '/BDMV/STREAM/'  // '/mnt/Movies/backup/brseason3/THAT\ 70S\ SHOW\ S3D1/BDMV/STREAM/'
   const destpath = '/mnt/media/shows/' + decodeURI(req.query.dest)  // '/mnt/media/shows/that70sshow/season_3/'
 
