@@ -1,7 +1,11 @@
 import express from 'express';
 import { existsSync, mkdirSync, readdirSync, renameSync, statSync } from 'node:fs';
 import { command } from './cli.js'
+import Openai from 'openai'
 
+const openai = new Openai({
+  apiKey: process.env['API_KEY']
+})
 
 const app = express()
 
