@@ -2,9 +2,16 @@ import express from 'express';
 import { existsSync, mkdirSync, readdirSync, renameSync, statSync } from 'node:fs';
 import { command } from './cli.js'
 import Openai from 'openai'
+import { z } from "zod";
 
 const openai = new Openai({
   apiKey: process.env['API_KEY']
+})
+
+const EpisodeInfo = z.object({
+  episodenumber: z.number(),
+  episodename: z.string(),
+  season: z.number()
 })
 
 const app = express()
