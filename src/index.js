@@ -1,5 +1,5 @@
 import express from 'express';
-import { existsSync, mkdirSync, readdirSync, renameSync, statSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, renameSync, statSync, readFileSync } from 'node:fs';
 import { command } from './cli.js'
 import Openai from 'openai'
 import { z } from "zod";
@@ -52,7 +52,7 @@ app.get('/transcribe', (req, res) => {
     })
     const info = await res.output_parsed
     console.log({ info })
-    renameSync(sourcepath + name, sourcepath + info.episodenumber)
+    renameSync(sourcepath + name, sourcepath + info.episodenumber + '.mp4')
   })
 
   res.send('done')
