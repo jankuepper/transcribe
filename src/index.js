@@ -3,6 +3,7 @@ import { existsSync, mkdirSync, readdirSync, renameSync, statSync, readFileSync 
 import { command } from './cli.js'
 import Openai from 'openai'
 import { z } from "zod";
+import { zodTextFormat } from "openai/helpers/zod";
 
 const openai = new Openai({
   apiKey: process.env['API_KEY']
