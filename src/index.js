@@ -53,7 +53,7 @@ app.get('/transcribe', (req, res) => {
     })
     const info = await res.output_parsed
     console.log({ info })
-    renameSync(sourcepath + name, sourcepath + info.episodenumber + '.mp4')
+    renameSync(sourcepath + file, sourcepath + info.episodenumber + '.mp4')
   })
 
   res.send('done')
